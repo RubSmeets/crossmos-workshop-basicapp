@@ -1,0 +1,22 @@
+# Build folder
+archive/
+build/
+
+# project specific files
+.sencha_backup/
+.idea/
+
+# No resources
+resources/sass/.sass-cache
+
+# No sencha touch SDK
+touch/
+
+# Ignore phonegap build credentials
+phonegap/
+local.properties
+
+
+.buildpath
+.project
+bootstrap.*
