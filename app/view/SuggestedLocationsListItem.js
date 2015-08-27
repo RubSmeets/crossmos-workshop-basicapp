@@ -10,7 +10,7 @@ Ext.define('PropertyCrossWorkshopApp.view.SuggestedLocationsListItem', {
     xtype: 'suggestedlocationslistitem',
 
     /*---------------------------------------------------------*/
-    //Config object of the controller
+    //Config object of the SuggestedLocationsListItem view
     /*---------------------------------------------------------*/
     config: {
         layout: 'hbox',

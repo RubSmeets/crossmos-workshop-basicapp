@@ -41,7 +41,8 @@ Ext.define('PropertyCrossWorkshopApp.controller.ApplicationController', {
             listTitleLabel: '#listTitleLabel',
             aboutButton: '#aboutButton',
             aboutPage: 'aboutPage',
-            locationButton: '#currLocationButton'
+            locationButton: '#currLocationButton',
+            previousSearches: '#previousSearches'
         },
 
         //List of events with their associated handler
@@ -76,6 +77,9 @@ Ext.define('PropertyCrossWorkshopApp.controller.ApplicationController', {
             },
             locationButton: {
                 tap: 'onLocationTap'
+            },
+            previousSearches: {
+                itemtap: 'onPreviousSearches'
             }
         }
     },
@@ -179,6 +183,7 @@ Ext.define('PropertyCrossWorkshopApp.controller.ApplicationController', {
                 that.getErrorMessage().setHtml("There were no properties found for the given location.");
                 that.getErrorMessage().show();
             } else {
+                that.addToPreviousSearches(response.locations[0].place_name, values.centre_point, response.locations[0].long_title, response.total_results);
                 that.goToResultsList(store);
             }
         } else if(responseCode === "201" || /* unknown location */
@@ -194,12 +199,43 @@ Ext.define('PropertyCrossWorkshopApp.controller.ApplicationController', {
                 that.getListTitleLabel().setHtml("Please select a location below:");
                 that.getListTitleLabel().show();
 
+                //Hide the previous searches when suggestions are shown
+                that.getPreviousSearches().hide();
                 suggestedLocationsList.show();
             } else {
                 that.getErrorMessage().setHtml("The location given was not recognised.");
                 that.getErrorMessage().show();
             }
         }
+    },
+
+    //Function that tries to add the current successful search to the searches store
+    addToPreviousSearches: function(placeName, centre_point, displayName, totalResults) {
+        var searches = Ext.getStore('searches');
+
+        // Place name is well defined even when searching for location - still use that as a key
+
+        //sort out previous searches..
+        var oldModel = searches.findRecord('place_name', placeName, 0, false, true, true);
+        if(oldModel){
+            searches.remove(oldModel);
+        } else {
+            var numResults = searches.getData().length;
+            if(numResults >= 4){
+                searches.removeAt(numResults - 1);
+            }
+        }
+        searches.add({
+            display_name: centre_point ? this.formatCoord(centre_point, 2) : displayName,
+            place_name: placeName,
+            centre_point: centre_point,
+            count: totalResults,
+            searchTimeMS: new Date().getTime()
+        });
+
+        searches.sync();
+
+        this.getListTitleLabel().show(); //hidden if zero results - so need to show
     },
 
     //Function that pushes the resultList view onto the navigation view
@@ -252,7 +288,16 @@ Ext.define('PropertyCrossWorkshopApp.controller.ApplicationController', {
         this.getErrorMessage().hide();
         var titleListLabel = this.getListTitleLabel();
 
-        titleListLabel.hide();
+        //Show previous searches
+        this.getPreviousSearches().show();
+
+        //Show the title depending on the previous searches store
+        if(Ext.getStore('searches').getData().length !== 0) {
+            titleListLabel.setHtml("Previous Searches");
+            titleListLabel.show();
+        } else {
+            titleListLabel.hide();
+        }
     },
 
     //Called when the "GO" button is tapped
@@ -377,6 +422,16 @@ Ext.define('PropertyCrossWorkshopApp.controller.ApplicationController', {
                 that.getErrorMessage().show();
             }
         });
+    },
+
+    //Called when the user selects an item from the previousSearches dataview (defined in view.Home)
+    onPreviousSearches: function(list, index, node, record) {
+        this.makeRequest(record.getData());
+
+        //Note: this seems odd but apparently you need to do this on timeout..
+        Ext.defer(function(){
+            list.deselect(index);
+        }, 200);
     },
 
     /*---------------------------------------------------------*/

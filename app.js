@@ -19,11 +19,13 @@ Ext.application({
 
     stores: [
         'Results',
-        'Favourites'
+        'Favourites',
+        'Searches'
     ],
 
     models: [
-        'Result'
+        'Result',
+        'Search'
     ],
 
     controllers: [

@@ -20,7 +20,8 @@ Ext.define('PropertyCrossWorkshopApp.view.Home', {
         'Ext.form.Panel',
         'Ext.form.FieldSet',
         'Ext.field.Text',
-        'PropertyCrossWorkshopApp.view.SuggestedLocationsListItem'
+        'PropertyCrossWorkshopApp.view.SuggestedLocationsListItem',
+        'PropertyCrossWorkshopApp.view.SearchesListItem'
     ],
 
 
@@ -92,6 +93,15 @@ Ext.define('PropertyCrossWorkshopApp.view.Home', {
                 margin: 10,
                 hidden: 'true',
                 id: 'listTitleLabel'
+            },
+            {
+                xtype: 'dataview',
+                padding: '0 10 10',
+                id: 'previousSearches',
+                //scrollable: null,
+                store: 'searches',	// used to populate the list
+                defaultType: 'searcheslistitem',	// useComponent must be true
+                useComponents: true
             },
             {
                 xtype: 'dataview',
