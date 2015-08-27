@@ -44,7 +44,7 @@ Ext.define('PropertyCrossWorkshopApp.view.Main', {
         var isWindowsPhone = Ext.browser.is.IE;
 
 
-        var navSettings = { alignment: 'right', listFaves: { iconCls: 'favourite' } };  //favourite
+        var navSettings = { alignment: 'right', listFaves: { iconCls: 'favourite' } };
 
         navSettings = isWindowsPhone ? { buttonUi: 'round', listFaves: { text: 'favourites' } } : navSettings;
 
@@ -70,6 +70,12 @@ Ext.define('PropertyCrossWorkshopApp.view.Main', {
                 hidden: true,
                 showAnimation: navSettings.animation,
                 ui: navSettings.buttonUi
+            },
+            {
+                xtype: 'button',
+                id: 'aboutButton',
+                iconCls: 'info',
+                align: 'left'   //Why align?
             }
         ];
 

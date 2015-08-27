@@ -14,6 +14,7 @@ Ext.define('PropertyCrossWorkshopApp.controller.ApplicationController', {
     requires: [
         'PropertyCrossWorkshopApp.view.ResultList',
         'PropertyCrossWorkshopApp.view.ResultDetails',
+        'PropertyCrossWorkshopApp.view.About',
         'Ext.MessageBox'
     ],
 
@@ -36,7 +37,9 @@ Ext.define('PropertyCrossWorkshopApp.controller.ApplicationController', {
             listFavesButton: '#listFavesButton',
             errorMessage: '#errorMessage',
             suggestedLocations: '#suggestedLocations',
-            listTitleLabel: '#listTitleLabel'
+            listTitleLabel: '#listTitleLabel',
+            aboutButton: '#aboutButton',
+            aboutPage: 'aboutPage'
         },
 
         //List of events with their associated handler
@@ -65,6 +68,9 @@ Ext.define('PropertyCrossWorkshopApp.controller.ApplicationController', {
             },
             faveButton: {
                 tap: 'onFaveTap'
+            },
+            aboutButton: {
+                tap: 'onAboutTap'
             }
         }
     },
@@ -100,6 +106,13 @@ Ext.define('PropertyCrossWorkshopApp.controller.ApplicationController', {
         document.removeEventListener("backbutton", this.onBack, false);
         if (this.backStackDepth > 0) {
             document.addEventListener("backbutton", this.onBack, false)
+        } else if(this.backStackDepth === 0) {
+            //Show listFavesButton
+            this.showButton(this.getListFavesButton());
+            this.showAppBar();
+
+            //Show about button
+            this.showButton(this.getAboutButton());
         }
     },
 
@@ -212,6 +225,9 @@ Ext.define('PropertyCrossWorkshopApp.controller.ApplicationController', {
         }
         this.hideButton(this.getListFavesButton());
 
+        //Disable info button
+        this.hideButton(this.getAboutButton());
+
         //push state so back button will work..
         history.pushState(null, "");
         this.updateBackStackDepth(+1);
@@ -221,10 +237,7 @@ Ext.define('PropertyCrossWorkshopApp.controller.ApplicationController', {
     onMainPop: function(view, item) {
         this.hideButton(this.getFaveButton());
         this.hideAppBar();
-        if (item.xtype === 'resultlist') {
-            this.showButton(this.getListFavesButton());
-            this.showAppBar();
-        }
+
         this.updateBackStackDepth(-1);
     },
 
@@ -321,6 +334,17 @@ Ext.define('PropertyCrossWorkshopApp.controller.ApplicationController', {
         store.load(function() {
             faveButton.setDisabled(false);
         });
+    },
+
+    //The about button handler
+    onAboutTap: function() {
+        //Create the about page if it doesn't exist
+        if(!this.aboutPage) {
+            this.aboutPage = Ext.create('PropertyCrossWorkshopApp.view.About');
+        }
+
+        //Push the about page onto the view
+        this.getMain().push(this.aboutPage);
     },
 
 
