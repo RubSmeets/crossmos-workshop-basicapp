@@ -71,6 +71,12 @@ Ext.define('PropertyCrossWorkshopApp.view.Home', {
                                 id: 'goButton',
                                 ui: 'normal',
                                 text: 'Go'
+                            },
+                            {
+                                xtype: 'button',
+                                id: 'currLocationButton',
+                                ui: 'action',	// shaded using the $active-color
+                                text: 'My Location'
                             }
                         ]
                     }

@@ -15,6 +15,7 @@ Ext.define('PropertyCrossWorkshopApp.controller.ApplicationController', {
         'PropertyCrossWorkshopApp.view.ResultList',
         'PropertyCrossWorkshopApp.view.ResultDetails',
         'PropertyCrossWorkshopApp.view.About',
+        'Ext.device.Geolocation',
         'Ext.MessageBox'
     ],
 
@@ -39,7 +40,8 @@ Ext.define('PropertyCrossWorkshopApp.controller.ApplicationController', {
             suggestedLocations: '#suggestedLocations',
             listTitleLabel: '#listTitleLabel',
             aboutButton: '#aboutButton',
-            aboutPage: 'aboutPage'
+            aboutPage: 'aboutPage',
+            locationButton: '#currLocationButton'
         },
 
         //List of events with their associated handler
@@ -71,6 +73,9 @@ Ext.define('PropertyCrossWorkshopApp.controller.ApplicationController', {
             },
             aboutButton: {
                 tap: 'onAboutTap'
+            },
+            locationButton: {
+                tap: 'onLocationTap'
             }
         }
     },
@@ -347,6 +352,32 @@ Ext.define('PropertyCrossWorkshopApp.controller.ApplicationController', {
         this.getMain().push(this.aboutPage);
     },
 
+    //The 'My Location' button handler
+    onLocationTap: function() {
+        var that = this;
+        var coords = {
+            longitude: 0,
+            latitude: 0
+        };
+
+        Ext.device.Geolocation.getCurrentPosition({
+            timeout: 5000, //timeout in 5s (default: not documented)
+            maximumAge: 60000, //allow caching location for 1m (default: none)
+            success: function(position) {
+                //Note: only works with locations in the UK, we need to apply location fix here
+                coords.longitude = position.coords.longitude - 4.9857;
+                coords.latitude = position.coords.latitude + 0.6983;
+
+                //Must make a request to get count for this position - and show error if 0.
+                that.makeRequest({ centre_point: coords });
+            },
+            failure: function() {
+                //Note: doesn't differentiate between user disabled and location not found.
+                that.getErrorMessage().setHtml("Unable to detect current location. Please ensure location is turned on in your phone settings and try again");
+                that.getErrorMessage().show();
+            }
+        });
+    },
 
     /*---------------------------------------------------------*/
     //Utility functions used throughout the controller
