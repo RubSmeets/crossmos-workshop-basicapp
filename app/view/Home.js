@@ -98,7 +98,7 @@ Ext.define('PropertyCrossWorkshopApp.view.Home', {
                 xtype: 'dataview',
                 padding: '0 10 10',
                 id: 'previousSearches',
-                //scrollable: null,
+                scrollable: null,   // needs to be defined 'null' or it doesn't show?
                 store: 'searches',	// used to populate the list
                 defaultType: 'searcheslistitem',	// useComponent must be true
                 useComponents: true

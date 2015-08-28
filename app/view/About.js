@@ -74,5 +74,5 @@ Ext.define('PropertyCrossWorkshopApp.view.About', {
             }
         ]
 
-    },
+    }
 });

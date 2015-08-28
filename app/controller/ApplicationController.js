@@ -112,10 +112,8 @@ Ext.define('PropertyCrossWorkshopApp.controller.ApplicationController', {
     //Disable the backbutton event listener when reaching the root view
     updateBackStackDepth: function(increment) {
         this.backStackDepth += increment;
-        document.removeEventListener("backbutton", this.onBack, false);
-        if (this.backStackDepth > 0) {
-            document.addEventListener("backbutton", this.onBack, false)
-        } else if(this.backStackDepth === 0) {
+
+        if(this.backStackDepth === 0) {
             //Show listFavesButton
             this.showButton(this.getListFavesButton());
             this.showAppBar();
