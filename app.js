@@ -14,7 +14,8 @@ Ext.application({
     name: 'PropertyCrossWorkshopApp',
 
     requires: [
-        'Ext.MessageBox'
+        'Ext.MessageBox',
+        'PropertyCrossWorkshopApp.util.Constants'
     ],
 
     stores: [
