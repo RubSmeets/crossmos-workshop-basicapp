@@ -27,7 +27,7 @@ Ext.define('PropertyCrossWorkshopApp.view.ResultListItem', {
         border: '0 0 1', //bottom border only - border stlye and colour has to be defined in CSS...
         cls: 'resultlistitem',
 
-        //Data mapping from record to view
+        //Data mapping from record to view (where e.g. 'thumb_url' is a record field)
         dataMap: {
             getImage: {
                 setSrc: 'thumb_url'

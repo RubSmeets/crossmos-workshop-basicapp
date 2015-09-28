@@ -33,7 +33,7 @@ Ext.define('PropertyCrossWorkshopApp.view.About', {
                 padding: '15 15 0 15'
             },
             {
-                xtype: 'panel',
+                xtype: 'component',
                 html: 'The PropertyCross app allows you to search for houses in the UK using search '
                         + 'criteria or by using the GPS for locations in the vecinity',
                 style: {
@@ -49,7 +49,7 @@ Ext.define('PropertyCrossWorkshopApp.view.About', {
                 padding: '15 15 0 15'
             },
             {
-                xtype: 'panel',
+                xtype: 'component',
                 html: 'Version v1.0.0',
                 padding: '15 15 0 15'
             },
@@ -61,7 +61,7 @@ Ext.define('PropertyCrossWorkshopApp.view.About', {
                 padding: '15 15 0 15'
             },
             {
-                xtype: 'panel',
+                xtype: 'component',
                 html: 'The app creator',
                 padding: '15 15 0 15'
             },

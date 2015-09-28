@@ -31,6 +31,7 @@ Ext.define('PropertyCrossWorkshopApp.view.ResultDetails', {
             {
                 padding: '15 15 0 15',
                 style: 'font-size: 24px',
+                //Syntax for calling a function inside the template using the inline JavaScript blocks
                 tpl:  Ext.create('Ext.XTemplate', '{[PropertyCrossWorkshopApp.util.Format.currency(values.price)]}')
             },
             {
@@ -62,12 +63,17 @@ Ext.define('PropertyCrossWorkshopApp.view.ResultDetails', {
 
     /*---------------------------------------------------------*/
     //UpdateRecord method that updates the panels with data
-    //from the supplied record
+    //from the supplied record. Here we use UpdateRecord
+    //instead of dataMap (unlike ResultListItem), because
+    //the dataMap config is only available for ListItem or
+    //dataItem components.
     /*---------------------------------------------------------*/
     updateRecord: function(newRecord) {
         if (newRecord) {
             //set data on details tab
             var data = newRecord.data;
+
+            //this.query('panel') == Ext.ComponentQuery.query('panel',this) -- returns array of matching components
             Ext.each(this.query('panel'), function(item, index){
                 item.setData(data);
             });

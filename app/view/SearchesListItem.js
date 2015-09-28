@@ -1,3 +1,9 @@
+/**
+ * The SearchesListItem describes how each item of the 'previousSearches'
+ * dataview in 'Home.js' should be displayed. The current mark-up
+ * shows the placeName followed by the number properties for that
+ * location.
+ */
 Ext.define('PropertyCrossWorkshopApp.view.SearchesListItem', {
     extend: 'Ext.dataview.component.DataItem',
 
